@@ -5,25 +5,26 @@ import (
 )
 
 type Deploy struct {
-	ID   int    `gorm:"primaryKey" json:"id"`
-	Logo string `gorm:"type:varchar(20)" json:"logo"`
-	Desc string `gorm:"type:varchar(200)" json:"desc"`
+	ID       int    `gorm:"primaryKey" json:"id"`
+	Logo     string `gorm:"type:varchar(200)" json:"logo"`
+	Abstract string `gorm:"type:varchar(200)" json:"abstract"`
+	Details  string `gorm:"type:varchar(500)" json:"details"`
 }
 
 // GetDeploy 获取 博客配置
-func GetDeploy() (Profile, int) {
-	var profile Profile
-	err = db.Where("ID = ?", "1").First(&profile).Error
+func GetDeploy() (Deploy, int) {
+	var deploy Deploy
+	err = db.Where("ID = ?", "1").First(&deploy).Error
 	if err != nil {
-		return profile, errmsg.ERROR
+		return deploy, errmsg.ERROR
 	}
-	return profile, errmsg.SUCCSE
+	return deploy, errmsg.SUCCSE
 }
 
 // UpdateProfile 更新博客配置
-func UpdateDeploy(data *Profile) int {
-	var profile Profile
-	err = db.Model(&profile).Where("ID = ?", "1").Updates(&data).Error
+func UpdateDeploy(data *Deploy) int {
+	var deploy Deploy
+	err = db.Model(&deploy).Where("ID = ?", "1").Updates(&data).Error
 	if err != nil {
 		return errmsg.ERROR
 	}

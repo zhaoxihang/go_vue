@@ -5,9 +5,15 @@
       <v-toolbar-title>
         <v-app-bar-nav-icon class="mx-15 hidden-md-and-down">
           <v-avatar size="40" color="grey">
-            <img :src="avatar" alt />
+            <img :src="logo" alt />
           </v-avatar>
         </v-app-bar-nav-icon>
+
+        <strong   class="green--text text--lighten-1" v-html="message.name"></strong>
+        <span>
+          &nbsp;({{ message.total }})
+        </span>
+
       </v-toolbar-title>
 
 <!--      <v-tabs dark center-active centered class="hidden-sm-and-down">-->
@@ -28,7 +34,7 @@
             hide-details
             solo-inverted
             rounded
-            placeholder="请输入文章标题查找"
+            label="请输入文章标题查找"
             append-icon="mdi-text-search"
             v-model="searchName"
             @change="searchTitle(searchName)"
@@ -67,7 +73,7 @@
 export default {
   data() {
     return {
-      avatar:false,
+      logo:false,
       drawer: false,
       group: null,
       valid: true,
@@ -77,6 +83,12 @@ export default {
       formdata: {
         username: '',
         password: ''
+      },
+      message:{
+        avatar: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
+        name: 'John Leider',
+        total: 'Welcome to Vuetify!',
+        excerpt: 'Thank you for joining our community...',
       },
       checkPassword: '',
       dialog: false,
@@ -120,11 +132,11 @@ export default {
     },
 
     async getBlogHeadPortrait(){
-      // 获取个人设置
+      // 获取 博客设置
       const { data: res } = await this.$http.get(
-        `profile/1`
+        `deploy`
       )
-      this.avatar = res.data.avatar
+      this.logo = res.data.logo
 
     }
   }
