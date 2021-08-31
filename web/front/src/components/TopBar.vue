@@ -2,16 +2,16 @@
   <div>
     <v-app-bar mobileBreakpoint="sm" app dark flat color="white darken-5">
       <v-app-bar-nav-icon dark class="hidden-md-and-up" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-toolbar-title>
-        <v-app-bar-nav-icon class="mx-15 hidden-md-and-down">
+      <v-toolbar-title class='hidden-md-and-down'>
+        <v-app-bar-nav-icon class="mx-15">
           <v-avatar size="40" color="grey">
-            <img :src="logo" alt />
+            <img :src="deploy.logo" alt />
           </v-avatar>
         </v-app-bar-nav-icon>
 
-        <strong   class="green--text text--lighten-1" v-html="message.name"></strong>
-        <span>
-          &nbsp;({{ message.total }})
+        <strong class="green--text text--lighten-1" v-html="deploy.abstract" @mouseenter="enter" @mouseleave="leave"></strong>
+        <span v-show="details_show" class="blue--text text--lighten-2">
+          &nbsp;&nbsp;({{ deploy.details }})
         </span>
 
       </v-toolbar-title>
@@ -40,6 +40,7 @@
             @change="searchTitle(searchName)"
             class='blue lighten-2'
             :class="`elevation-${hover ? 50 : 6}`"
+            style='width: 1%'
           ></v-text-field>
         </template>
       </v-hover>
@@ -73,7 +74,12 @@
 export default {
   data() {
     return {
-      logo:false,
+      deploy:{
+        logo:false,
+        abstract:false,
+        details:false,
+      },
+      details_show:false,
       drawer: false,
       group: null,
       valid: true,
@@ -83,12 +89,6 @@ export default {
       formdata: {
         username: '',
         password: ''
-      },
-      message:{
-        avatar: 'https://avatars0.githubusercontent.com/u/9064066?v=4&s=460',
-        name: 'John Leider',
-        total: 'Welcome to Vuetify!',
-        excerpt: 'Thank you for joining our community...',
       },
       checkPassword: '',
       dialog: false,
@@ -136,8 +136,13 @@ export default {
       const { data: res } = await this.$http.get(
         `deploy`
       )
-      this.logo = res.data.logo
-
+      this.deploy = res.data
+    },
+    enter(){
+      this.details_show = true;
+    },
+    leave(){
+      this.details_show = false;
     }
   }
 }

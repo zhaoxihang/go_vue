@@ -1,5 +1,5 @@
 <template>
-  <v-card class="mx-auto" max-width="320">
+  <v-card class="mx-auto hidden-md-and-down" max-width="320">
     <v-img :src="profileInfo.img">
       <v-card-title>
         <v-col align="center">
